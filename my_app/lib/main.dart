@@ -49,6 +49,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(
+              'assets/newspaper.png',
+              height: 240,
+              width: 240,
+              fit: BoxFit.fitHeight,
+            ),
+            ]
           ),
         ),
       ),
