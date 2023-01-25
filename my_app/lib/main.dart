@@ -13,8 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'News Scraper',
-      theme: ThemeData(
-      ),
+      theme: ThemeData(),
       home: const MyHomePage(),
     );
   }
@@ -32,12 +31,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
- 
     return Scaffold(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        //this is test
-        // Silly comment
+      // Here we take the value from the MyHomePage object that was created by
+      // the App.build method, and use it to set our appbar title.
+      //  this is test
+      // Silly comment
+      // Sillier comment
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -48,16 +47,15 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-              'assets/newspaper.png',
-              height: 240,
-              width: 240,
-              fit: BoxFit.fitHeight,
-            ),
-            ]
-          ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(
+                  'assets/newspaper.png',
+                  height: 240,
+                  width: 240,
+                  fit: BoxFit.fitHeight,
+                ),
+              ]),
         ),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
