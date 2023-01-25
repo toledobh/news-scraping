@@ -32,8 +32,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       // Here we take the value from the MyHomePage object that was created by
       // the App.build method, and use it to set our appbar title.
-<<<<<<< Updated upstream
-=======
       //  this is test
       // Silly comment
       // Sillier comment
@@ -42,7 +40,6 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title
         backgroundColor: Colors.blue.shade300,
       ),
->>>>>>> Stashed changes
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -64,8 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ]),
         ),
       ),
-<<<<<<< Updated upstream
-=======
+
       // This trailing comma makes auto-formatting nicer for build methods.
       drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
@@ -128,7 +124,6 @@ class SecondPage extends StatelessWidget {
           child: const Text('Go Back'),
         ),
       ),
->>>>>>> Stashed changes
     );
   }
 }
