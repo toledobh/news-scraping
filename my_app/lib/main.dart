@@ -32,12 +32,23 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       // Here we take the value from the MyHomePage object that was created by
       // the App.build method, and use it to set our appbar title.
+<<<<<<< Updated upstream
+=======
+      //  this is test
+      // Silly comment
+      // Sillier comment
+      appBar: AppBar(
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title
+        backgroundColor: Colors.blue.shade300,
+      ),
+>>>>>>> Stashed changes
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.red, Colors.blue],
+            colors: [Colors.blue.shade300, Colors.red.shade300],
           ),
         ),
         child: Center(
@@ -53,6 +64,71 @@ class _MyHomePageState extends State<MyHomePage> {
               ]),
         ),
       ),
+<<<<<<< Updated upstream
+=======
+      // This trailing comma makes auto-formatting nicer for build methods.
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue.shade300,
+              ),
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              title: const Text('Item 1'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Item 2'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const SecondPage(title: 'SecondPage');
+                    },
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SecondPage extends StatelessWidget {
+  const SecondPage({Key? key, required this.title}) : super(key: key);
+  final String title;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Center(
+        child: TextButton(
+          onPressed: () {},
+          child: const Text('Go Back'),
+        ),
+      ),
+>>>>>>> Stashed changes
     );
   }
 }
