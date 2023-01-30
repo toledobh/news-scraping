@@ -44,6 +44,13 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                const Text ("Fakey Wakey",
+                style: TextStyle(
+                fontFamily:'Roboto',
+                fontSize: 40.8,
+                color: Colors.white
+                ),
+                ),
                 Image.asset(
                   'assets/newspaper.png',
                   height: 240,
