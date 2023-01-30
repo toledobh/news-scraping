@@ -75,10 +75,10 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: BoxDecoration(
                 color: Colors.blue.shade300,
               ),
-              child: Text('Drawer Header'),
+              child: Text('Menu'),
             ),
             ListTile(
-              title: const Text('Item 1'),
+              title: const Text('Instructions'),
               onTap: () {
                 // Update the state of the app
                 // ...
@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             ListTile(
-              title: const Text('Item 2'),
+              title: const Text('Settings'),
               onTap: () {
                 // Update the state of the app
                 // ...
