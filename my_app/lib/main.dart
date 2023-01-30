@@ -7,7 +7,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,14 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Here we take the value from the MyHomePage object that was created by
-      // the App.build method, and use it to set our appbar title.
-      //  this is test
-      // Silly comment
-      // Sillier comment
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title
         backgroundColor: Colors.blue.shade300,
       ),
       body: Container(
@@ -61,37 +53,28 @@ class _MyHomePageState extends State<MyHomePage> {
               ]),
         ),
       ),
-
-      // This trailing comma makes auto-formatting nicer for build methods.
       drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue.shade300,
+            SizedBox(
+              height: 64.0,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade300,
+                ),
+                child: const Text('Menu'),
               ),
-              child: Text('Menu'),
             ),
             ListTile(
               title: const Text('Instructions'),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
                 Navigator.pop(context);
               },
             ),
             ListTile(
               title: const Text('Settings'),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
                 Navigator.push(
                   context,
                   MaterialPageRoute(
