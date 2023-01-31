@@ -101,13 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-// Widget buildElevatedButton() => ElevatedButton.icon(
-//         style: ElevatedButton.styleFrom(
-//           foregroundColor: Colors.white,
-//           backgroundColor: Colors.blue,
-//           minimumSize: const Size(280, 80), // foreground text color
-//           textStyle: const TextStyle(fontSize: 36),
-//         )
+
 Widget buildElevatedButton() => ElevatedButton.icon(onPressed: onPressed, icon: const Icon(Icons.favorite, size: 0,color: Colors.blueAccent,),  label: const Text('PLAY'));
 
 class SecondPage extends StatelessWidget {
