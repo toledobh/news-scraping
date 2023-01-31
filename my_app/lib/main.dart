@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -57,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 240,
                   fit: BoxFit.fitHeight,
                 ),
+                buildElevatedButton(),
               ]),
         ),
       ),
@@ -98,6 +101,14 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+// Widget buildElevatedButton() => ElevatedButton.icon(
+//         style: ElevatedButton.styleFrom(
+//           foregroundColor: Colors.white,
+//           backgroundColor: Colors.blue,
+//           minimumSize: const Size(280, 80), // foreground text color
+//           textStyle: const TextStyle(fontSize: 36),
+//         )
+Widget buildElevatedButton() => ElevatedButton.icon(onPressed: onPressed, icon: const Icon(Icons.favorite, size: 0,color: Colors.blueAccent,),  label: const Text('PLAY'));
 
 class SecondPage extends StatelessWidget {
   const SecondPage({Key? key, required this.title}) : super(key: key);
@@ -116,4 +127,7 @@ class SecondPage extends StatelessWidget {
       ),
     );
   }
+}
+
+void onPressed() {
 }
