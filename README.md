@@ -23,6 +23,9 @@ How to add list of Pull requests
 6. Go back to VSC Flutter terminal
 7. Switch to the main branch by running 'git checkout main'
 8. Then run 'git pull' 
-
+9. DO NOT CLOSE your pull request!
+    - Just wait until you get 2 approvals from your peers and your product owner (Haide) 
+    - If you accidently closed it, go back to the pull requst link and reopen the pull request. 
+    - DO NOT DELETE your pull request then, your record will be deleted. 
 
     
