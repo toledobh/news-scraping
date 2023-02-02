@@ -8,6 +8,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  // BOINGUS
 
   @override
   Widget build(BuildContext context) {
@@ -46,12 +47,12 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text ("Fakey Wakey",
-                style: TextStyle(
-                fontFamily:'Roboto',
-                fontSize: 40.8,
-                color: Colors.white
-                ),
+                const Text(
+                  "Fakey Wakey",
+                  style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 40.8,
+                      color: Colors.white),
                 ),
                 Image.asset(
                   'assets/newspaper.png',
@@ -102,7 +103,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-Widget buildElevatedButton() => ElevatedButton.icon(onPressed: onPressed, icon: const Icon(Icons.favorite, size: 0,color: Colors.blueAccent,),  label: const Text('PLAY'));
+Widget buildElevatedButton() => ElevatedButton.icon(
+    onPressed: onPressed,
+    icon: const Icon(
+      Icons.favorite,
+      size: 0,
+      color: Colors.blueAccent,
+    ),
+    label: const Text('PLAY'));
 
 class SecondPage extends StatelessWidget {
   const SecondPage({Key? key, required this.title}) : super(key: key);
@@ -123,5 +131,4 @@ class SecondPage extends StatelessWidget {
   }
 }
 
-void onPressed() {
-}
+void onPressed() {}
