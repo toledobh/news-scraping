@@ -60,6 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   fit: BoxFit.fitHeight,
                 ),
                 buildElevatedButton(),
+
+                //settings button container
+                Container(
+                  height: 300,
+                  alignment: Alignment.bottomRight,
+                  child: buildIconButton(),
+                ),
               ]),
         ),
       ),
@@ -129,6 +136,18 @@ Widget buildElevatedButton() => ElevatedButton.icon(
     label: const Text('PLAY'));
 
 void onPressed() {}
+
+//Settings button widget?
+Widget buildIconButton() => IconButton(
+  onPressed: () {},
+  // ignore: prefer_const_constructors
+  icon: Icon(
+    Icons.settings
+  ),
+  alignment: Alignment.bottomRight,
+  
+);
+
 
 //settings page
 class SecondPage extends StatelessWidget {
