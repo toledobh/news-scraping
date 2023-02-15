@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'Modules/news_module.dart';
 import 'package:my_app/firebase_options.dart';
 
 void main() async {
@@ -31,6 +32,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+//this is the first page the users will see
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
@@ -50,15 +52,33 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                const Text(
+                  "Fakey Wakey",
+                  style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 40.8,
+                      color: Colors.white),
+                ),
                 Image.asset(
                   'assets/newspaper.png',
                   height: 240,
                   width: 240,
                   fit: BoxFit.fitHeight,
                 ),
+                buildElevatedButton(),
+
+                //settings button container
+                Container(
+                  height: 300,
+                  alignment: Alignment.bottomRight,
+                  child: buildIconButton(),
+                ),
               ]),
         ),
       ),
+
+      //this is the drawer/sidebar that holds all the pages.
+      //This is just for testing, so this won't be in the final product.
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -91,6 +111,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
+            ListTile(
+              title: const Text('MainPage'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const MainPage(title: 'MainPage');
+                    },
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -98,6 +131,31 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+//this is the play button on the first page
+Widget buildElevatedButton() => ElevatedButton.icon(
+    onPressed: onPressed,
+    icon: const Icon(
+      Icons.favorite,
+      size: 0,
+      color: Colors.blueAccent,
+    ),
+    label: const Text('PLAY'));
+
+void onPressed() {}
+
+//Settings button widget?
+Widget buildIconButton() => IconButton(
+  onPressed: () {},
+  // ignore: prefer_const_constructors
+  icon: Icon(
+    Icons.settings
+  ),
+  alignment: Alignment.bottomRight,
+  
+);
+
+
+//settings page
 class SecondPage extends StatelessWidget {
   const SecondPage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -112,6 +170,66 @@ class SecondPage extends StatelessWidget {
           onPressed: () {},
           child: const Text('Go Back'),
         ),
+      ),
+    );
+  }
+}
+
+//This page is used for the main part of the game
+class MainPage extends StatelessWidget {
+  const MainPage({Key? key, required this.title}) : super(key: key);
+  final String title;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: NewsCard(news: News.news[0]),
+    );
+  }
+}
+
+//this class gets information from news_module.dart to build the main page
+class NewsCard extends StatelessWidget {
+  final News news;
+
+  const NewsCard({
+    Key? key,
+    required this.news,
+  }) : super(key: key);
+
+  //this is the widget that holds the news information
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 10,
+        left: 20,
+        right: 20,
+      ),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height / 1.4,
+        width: MediaQuery.of(context).size.width,
+        child: Stack(children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+              gradient: LinearGradient(
+                colors: [
+                  Colors.grey.shade100,
+                  Colors.white,
+                  Colors.blue.shade100,
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+          Center(
+            child: Text(news.title),
+          ),
+        ]),
       ),
     );
   }
