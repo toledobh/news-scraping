@@ -66,9 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   fit: BoxFit.fitHeight,
                 ),
                 buildElevatedButton(),
-
-              ]
-          ),
+              ]),
         ),
       ),
 
@@ -140,15 +138,11 @@ void onPressed() {}
 
 //Settings button widget?
 Widget buildIconButton() => IconButton(
-  onPressed: () {},
-  // ignore: prefer_const_constructors
-  icon: Icon(
-    Icons.settings
-  ),
-  alignment: Alignment.bottomRight,
-  
-);
-
+      onPressed: () {},
+      // ignore: prefer_const_constructors
+      icon: Icon(Icons.settings),
+      alignment: Alignment.bottomRight,
+    );
 
 //settings page
 class SecondPage extends StatelessWidget {
@@ -181,7 +175,6 @@ class SecondPage extends StatelessWidget {
             ),
           ],
         ),
-
       ),
     );
   }
@@ -197,8 +190,66 @@ class MainPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: NewsCard(news: News.news[0]),
+      body: Column(
+        children: [
+          NewsCard(news: News.news[0]),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 60.0,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ChoiceButton(
+                    color: Colors.red.shade300,
+                    text1: '',
+                    icon: Icons.arrow_back_rounded,
+                    text2: 'FALSE'),
+                ChoiceButton(
+                    color: Colors.green.shade300,
+                    text1: 'TRUE',
+                    icon: Icons.arrow_forward_rounded,
+                    text2: ''),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
+  }
+}
+
+//this is used for the true and false buttons
+class ChoiceButton extends StatelessWidget {
+  final Color color;
+  final String text1;
+  final IconData icon;
+  final String text2;
+
+  const ChoiceButton({
+    Key? key,
+    required this.color,
+    required this.text1,
+    required this.icon,
+    required this.text2,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: 70,
+        height: 60,
+        child: Row(
+          children: [
+            Text(text1),
+            Icon(
+              icon,
+              color: color,
+            ),
+            Text(text2),
+          ],
+        ));
   }
 }
 
@@ -224,6 +275,7 @@ class NewsCard extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 1.4,
         width: MediaQuery.of(context).size.width,
         child: Stack(children: [
+          //holds the text
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.0),
@@ -238,6 +290,7 @@ class NewsCard extends StatelessWidget {
               ),
             ),
           ),
+          //the text of the news prompt
           Center(
             child: Text(news.title),
           ),
