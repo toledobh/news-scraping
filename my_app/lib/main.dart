@@ -61,13 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 buildElevatedButton(),
 
-                //settings button container
-                Container(
-                  height: 300,
-                  alignment: Alignment.bottomRight,
-                  child: buildIconButton(),
-                ),
-              ]),
+              ]
+          ),
         ),
       ),
 
@@ -160,10 +155,27 @@ class SecondPage extends StatelessWidget {
         title: Text(title),
       ),
       body: Center(
-        child: TextButton(
-          onPressed: () {},
-          child: const Text('Go Back'),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Container(
+              //height: 300,
+              alignment: Alignment.topRight,
+              child: buildIconButton(),
+            ),
+
+            // ignore: avoid_unnecessary_containers
+            Container(
+              height: 400,
+              alignment: Alignment.bottomCenter,
+              child: TextButton(
+                onPressed: () {},
+                child: const Text('Go Back'),
+              ),
+            ),
+          ],
         ),
+
       ),
     );
   }
