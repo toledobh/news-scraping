@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:web_scraper/web_scraper.dart';
 import 'Modules/news_module.dart';
 
 void main() {
@@ -139,15 +140,11 @@ void onPressed() {}
 
 //Settings button widget?
 Widget buildIconButton() => IconButton(
-  onPressed: () {},
-  // ignore: prefer_const_constructors
-  icon: Icon(
-    Icons.settings
-  ),
-  alignment: Alignment.bottomRight,
-  
-);
-
+      onPressed: () {},
+      // ignore: prefer_const_constructors
+      icon: Icon(Icons.settings),
+      alignment: Alignment.bottomRight,
+    );
 
 //settings page
 class SecondPage extends StatelessWidget {
