@@ -55,14 +55,26 @@ class _MyHomePageState extends State<MyHomePage> {
                 const Text(
                   "Fakey Wakey",
                   style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 40.8,
-                      color: Colors.white),
+                      fontFamily: 'Roboto', fontSize: 30, color: Colors.white),
                 ),
+
+                SizedBox(height: 33), // Add some space between the texts
+
+                Transform(
+                  transform: Matrix4.identity()..scale(1, -1),
+                  child: const Text(
+                    "Fakey Wakey",
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 30,
+                        color: Colors.white),
+                  ),
+                ),
+
                 Image.asset(
                   'assets/newspaper.png',
-                  height: 240,
-                  width: 240,
+                  height: 170,
+                  width: 170,
                   fit: BoxFit.fitHeight,
                 ),
                 buildElevatedButton(),
@@ -145,15 +157,11 @@ void onPressed() {}
 
 //Settings button widget?
 Widget buildIconButton() => IconButton(
-  onPressed: () {},
-  // ignore: prefer_const_constructors
-  icon: Icon(
-    Icons.settings
-  ),
-  alignment: Alignment.bottomRight,
-  
-);
-
+      onPressed: () {},
+      // ignore: prefer_const_constructors
+      icon: Icon(Icons.settings),
+      alignment: Alignment.bottomRight,
+    );
 
 //settings page
 class SecondPage extends StatelessWidget {
