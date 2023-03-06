@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Modules/news_module.dart';
 import 'package:my_app/firebase_options.dart';
+import 'package:web_scraper/web_scraper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -144,11 +145,44 @@ Widget buildIconButton() => IconButton(
       alignment: Alignment.bottomRight,
     );
 
-//settings page
-class SecondPage extends StatelessWidget {
-  const SecondPage({Key? key, required this.title}) : super(key: key);
-  final String title;
+class SecondPage extends StatefulWidget {
+  const SecondPage({super.key});
+
   @override
+  State<SecondPage> createState() => _SecondPageState();
+}
+
+//settings page
+class _SecondPageState extends State<SecondPage> {
+  // initialize WebScraper by passing base url of website
+  final webScraper = WebScraper('https://webscraper.io');
+
+  // Response of getElement is always List<Map<String, dynamic>>
+  List<Map<String, dynamic>>? productNames;
+  late List<Map<String, dynamic>> productDescriptions;
+
+  void fetchProducts() async {
+    // Loads web page and downloads into local state of library
+    if (await webScraper
+        .loadWebPage('/test-sites/e-commerce/allinone/computers/laptops')) {
+      setState(() {
+        // getElement takes the address of html tag/element and attributes you want to scrap from website
+        // it will return the attributes in the same order passed
+        productNames = webScraper.getElement(
+            'div.thumbnail > div.caption > h4 > a.title', ['href', 'title']);
+        productDescriptions = webScraper.getElement(
+            'div.thumbnail > div.caption > p.description', ['class']);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Requesting to fetch before UI drawing starts
+    fetchProducts();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -165,6 +199,14 @@ class SecondPage extends StatelessWidget {
             ),
 
             // ignore: avoid_unnecessary_containers
+            Container(
+              height: 400,
+              alignment: Alignment.bottomCenter,
+              child: TextButton(
+                onPressed: () {},
+                child: const Text('Go Back'),
+              ),
+            ),
             Container(
               height: 400,
               alignment: Alignment.bottomCenter,
