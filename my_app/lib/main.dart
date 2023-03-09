@@ -85,35 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             ListTile(
-              title: const Text('Instructions'),
+              title: const Text('StartPage'),
               onTap: () {
                 Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const SecondPage(title: 'Settings');
-                    },
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text('MainPage'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const ThirdPage(title: 'MainPage');
-                    },
-                  ),
-                );
               },
             ),
             ListTile(
@@ -123,7 +97,33 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const DismissablePage(title: 'DismissablePage');
+                      return const SwipePage(title: 'SwipePage');
+                    },
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('LoginPage'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const LoginPage(title: 'LoginPage');
+                    },
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Placeholder'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const Placeholder(title: 'Placeholder');
                     },
                   ),
                 );
@@ -137,8 +137,8 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 //settings page PAGE#2 
-class SecondPage extends StatelessWidget {
-  const SecondPage({Key? key, required this.title}) : super(key: key);
+class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   Widget build(BuildContext context) {
@@ -150,12 +150,6 @@ class SecondPage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Container(
-              //height: 300,
-              alignment: Alignment.topRight,
-              child: buildIconButton(),
-            ),
-
             // ignore: avoid_unnecessary_containers
             Container(
               height: 400,
@@ -173,8 +167,8 @@ class SecondPage extends StatelessWidget {
 }
 
 //This page is used for the main part of the game PAGE#3
-class ThirdPage extends StatelessWidget {
-  const ThirdPage({Key? key, required this.title}) : super(key: key);
+class Placeholder extends StatelessWidget {
+  const Placeholder({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   Widget build(BuildContext context) {
@@ -216,8 +210,8 @@ class ThirdPage extends StatelessWidget {
 Test code for "Swiping" page for the main game
 */
 
-class DismissablePage extends StatelessWidget {
-  const DismissablePage({Key? key, required this.title}) : super(key: key);
+class SwipePage extends StatelessWidget {
+  const SwipePage({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   Widget build(BuildContext context) {
@@ -229,18 +223,23 @@ class DismissablePage extends StatelessWidget {
         Dismissible(
           background: Container(
             color: Colors.green,
-            child: Icon(Icons.check), 
+            child: const Icon(Icons.check), 
           ),
           secondaryBackground: Container(
             color: Colors.red,
-            child: Icon(Icons.cancel),
+            child: const Icon(Icons.cancel),
           ),
+          key: const ValueKey<int>(0),
           child: Column(
             children: [
+              Container(
+              //height: 300,
+              alignment: Alignment.topRight,
+              child: buildIconButton(context),
+            ),
               NewsCard(news: News.news[0]),
             ],
           ),
-          key: ValueKey<int>(0),
         ),
     );
   }
@@ -336,7 +335,7 @@ Widget buildElevatedButton(BuildContext context) => ElevatedButton.icon(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const ThirdPage(title: 'MainPage');
+                      return const SwipePage(title: 'SwipePage');
                     },
                   ),
                 );
@@ -349,8 +348,17 @@ Widget buildElevatedButton(BuildContext context) => ElevatedButton.icon(
     label: const Text('PLAY'));
 
 //Settings button widget?
-Widget buildIconButton() => IconButton(
-      onPressed: () {},
+Widget buildIconButton(BuildContext context) => IconButton(
+      onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const LoginPage(title: 'LoginPage');
+                    },
+                  ),
+                );
+      },
       // ignore: prefer_const_constructors
       icon: Icon(Icons.settings),
       alignment: Alignment.bottomRight,
