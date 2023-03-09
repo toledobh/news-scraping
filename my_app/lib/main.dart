@@ -6,7 +6,7 @@ import 'package:my_app/firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
 }
@@ -27,12 +27,11 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-//this is the first page the users will see
+//this is the first page the users will see PAGE#1
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
@@ -65,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 240,
                   fit: BoxFit.fitHeight,
                 ),
-                buildElevatedButton(),
+                buildElevatedButton(context),
               ]),
         ),
       ),
@@ -111,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const MainPage(title: 'MainPage');
+                      return const ThirdPage(title: 'MainPage');
                     },
                   ),
                 );
@@ -137,27 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-//this is the play button on the first page
-Widget buildElevatedButton() => ElevatedButton.icon(
-    onPressed: onPressed,
-    icon: const Icon(
-      Icons.favorite,
-      size: 0,
-      color: Colors.blueAccent,
-    ),
-    label: const Text('PLAY'));
-
-void onPressed() {}
-
-//Settings button widget?
-Widget buildIconButton() => IconButton(
-      onPressed: () {},
-      // ignore: prefer_const_constructors
-      icon: Icon(Icons.settings),
-      alignment: Alignment.bottomRight,
-    );
-
-//settings page
+//settings page PAGE#2 
 class SecondPage extends StatelessWidget {
   const SecondPage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -193,9 +172,9 @@ class SecondPage extends StatelessWidget {
   }
 }
 
-//This page is used for the main part of the game
-class MainPage extends StatelessWidget {
-  const MainPage({Key? key, required this.title}) : super(key: key);
+//This page is used for the main part of the game PAGE#3
+class ThirdPage extends StatelessWidget {
+  const ThirdPage({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   Widget build(BuildContext context) {
@@ -346,4 +325,33 @@ class NewsCard extends StatelessWidget {
       ),
     );
   }
+
 }
+
+//this is the play button on the first page
+Widget buildElevatedButton(BuildContext context) => ElevatedButton.icon(
+  //method to go to MainPage
+    onPressed: (){
+      Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const ThirdPage(title: 'MainPage');
+                    },
+                  ),
+                );
+    },
+    icon: const Icon(
+      Icons.favorite,
+      size: 0,
+      color: Colors.blueAccent,
+    ),
+    label: const Text('PLAY'));
+
+//Settings button widget?
+Widget buildIconButton() => IconButton(
+      onPressed: () {},
+      // ignore: prefer_const_constructors
+      icon: Icon(Icons.settings),
+      alignment: Alignment.bottomRight,
+    );
