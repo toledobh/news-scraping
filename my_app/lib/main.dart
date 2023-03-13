@@ -250,7 +250,12 @@ class DismissablePage extends StatelessWidget {
         Dismissible(
           background: Container(
             color: Colors.green,
-            child: Icon(Icons.check), 
+            child: Column(
+              children: <Widget>[
+                Icon(Icons.check),
+                Text('True'),
+              ]
+            )
           ),
           secondaryBackground: Container(
             color: Colors.red,
