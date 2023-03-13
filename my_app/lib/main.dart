@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/green_screen.dart';
+import 'package:my_app/red_screen.dart';
 import 'Modules/news_module.dart';
 import 'package:my_app/firebase_options.dart';
 
@@ -258,8 +260,16 @@ class DismissablePage extends StatelessWidget {
             )
           ),
           secondaryBackground: Container(
-            color: Colors.red,
-            child: Icon(Icons.cancel),
+                        color: Colors.red,
+            child: Column(
+              children: <Widget>[
+                Icon(Icons.cancel),
+                Text('False'),
+              ]
+            )
+
+            //color: Colors.red,
+            //child: Icon(Icons.cancel),
           ),
           child: Column(
             children: [
@@ -267,6 +277,13 @@ class DismissablePage extends StatelessWidget {
             ],
           ),
           key: ValueKey<int>(0),
+          onDismissed: (DismissDirection direction) {
+            if (direction == DismissDirection.startToEnd){
+              Navigator.of(context).push( MaterialPageRoute (builder: (context) => GoodJobScreen()));
+            } else {
+              Navigator.of(context).push( MaterialPageRoute (builder: (context) => KeepTryingScreen()));
+            } //end if
+          }, // end on Dismissed
         ),
     );
   }
