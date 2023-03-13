@@ -136,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-//settings page PAGE#2 
+//settings page PAGE#2 new changes
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key, required this.title}) : super(key: key);
   final String title;
