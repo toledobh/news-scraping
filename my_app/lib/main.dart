@@ -241,7 +241,6 @@ class SwipePage extends StatelessWidget {
               ]
             )
           ),
-          key: const ValueKey<int>(0),
           child: Column(
             children: [
               Container(
@@ -252,7 +251,8 @@ class SwipePage extends StatelessWidget {
               NewsCard(news: News.news[0]),
             ],
           ),
-          key: ValueKey<int>(0),
+          key: const ValueKey<int>(0),
+          // key: ValueKey<int>(0),
           onDismissed: (DismissDirection direction) {
             if (direction == DismissDirection.startToEnd){
               Navigator.of(context).push( MaterialPageRoute (builder: (context) => GoodJobScreen()));
