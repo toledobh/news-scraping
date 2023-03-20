@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/green_screen.dart';
+import 'package:my_app/red_screen.dart';
 import 'Modules/news_module.dart';
 import 'package:my_app/firebase_options.dart';
 
@@ -223,11 +225,21 @@ class SwipePage extends StatelessWidget {
         Dismissible(
           background: Container(
             color: Colors.green,
-            child: const Icon(Icons.check), 
+            child: Column(
+              children: <Widget>[
+                Icon(Icons.check),
+                Text('True'),
+              ]
+            )
           ),
           secondaryBackground: Container(
-            color: Colors.red,
-            child: const Icon(Icons.cancel),
+                        color: Colors.red,
+            child: Column(
+              children: <Widget>[
+                Icon(Icons.cancel),
+                Text('False'),
+              ]
+            )
           ),
           key: const ValueKey<int>(0),
           child: Column(
@@ -240,6 +252,14 @@ class SwipePage extends StatelessWidget {
               NewsCard(news: News.news[0]),
             ],
           ),
+          key: ValueKey<int>(0),
+          onDismissed: (DismissDirection direction) {
+            if (direction == DismissDirection.startToEnd){
+              Navigator.of(context).push( MaterialPageRoute (builder: (context) => GoodJobScreen()));
+            } else {
+              Navigator.of(context).push( MaterialPageRoute (builder: (context) => KeepTryingScreen()));
+            } //end if
+          }, // end on Dismissed
         ),
     );
   }
