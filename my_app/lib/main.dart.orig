@@ -1,14 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/green_screen.dart';
-import 'package:my_app/red_screen.dart';
 import 'Modules/news_module.dart';
 import 'package:my_app/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
 }
@@ -29,11 +27,12 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-//this is the first page the users will see PAGE#1
+//this is the first page the users will see
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
@@ -66,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 240,
                   fit: BoxFit.fitHeight,
                 ),
-                buildElevatedButton(context),
+                buildElevatedButton(),
               ]),
         ),
       ),
@@ -87,9 +86,35 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             ListTile(
-              title: const Text('StartPage'),
+              title: const Text('Instructions'),
               onTap: () {
                 Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Settings'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const SecondPage(title: 'Settings');
+                    },
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('MainPage'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const MainPage(title: 'MainPage');
+                    },
+                  ),
+                );
               },
             ),
             ListTile(
@@ -99,33 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const SwipePage(title: 'SwipePage');
-                    },
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text('LoginPage'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const LoginPage(title: 'LoginPage');
-                    },
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text('Placeholder'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const Placeholder(title: 'Placeholder');
+                      return const DismissablePage(title: 'DismissablePage');
                     },
                   ),
                 );
@@ -138,9 +137,29 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-//settings page PAGE#2 new changes
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key, required this.title}) : super(key: key);
+//this is the play button on the first page
+Widget buildElevatedButton() => ElevatedButton.icon(
+    onPressed: onPressed,
+    icon: const Icon(
+      Icons.favorite,
+      size: 0,
+      color: Colors.blueAccent,
+    ),
+    label: const Text('PLAY'));
+
+void onPressed() {}
+
+//Settings button widget?
+Widget buildIconButton() => IconButton(
+      onPressed: () {},
+      // ignore: prefer_const_constructors
+      icon: Icon(Icons.settings),
+      alignment: Alignment.bottomRight,
+    );
+
+//settings page
+class SecondPage extends StatelessWidget {
+  const SecondPage({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   Widget build(BuildContext context) {
@@ -152,6 +171,12 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
+            Container(
+              //height: 300,
+              alignment: Alignment.topRight,
+              child: buildIconButton(),
+            ),
+
             // ignore: avoid_unnecessary_containers
             Container(
               height: 400,
@@ -168,9 +193,9 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-//This page is used for the main part of the game PAGE#3
-class Placeholder extends StatelessWidget {
-  const Placeholder({Key? key, required this.title}) : super(key: key);
+//This page is used for the main part of the game
+class MainPage extends StatelessWidget {
+  const MainPage({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   Widget build(BuildContext context) {
@@ -208,12 +233,13 @@ class Placeholder extends StatelessWidget {
   }
 }
 
+<<<<<<< HEAD
 /*
 Test code for "Swiping" page for the main game
 */
 
-class SwipePage extends StatelessWidget {
-  const SwipePage({Key? key, required this.title}) : super(key: key);
+class DismissablePage extends StatelessWidget {
+  const DismissablePage({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   Widget build(BuildContext context) {
@@ -225,47 +251,26 @@ class SwipePage extends StatelessWidget {
         Dismissible(
           background: Container(
             color: Colors.green,
-            child: Column(
-              children: <Widget>[
-                Icon(Icons.check),
-                Text('True'),
-              ]
-            )
+            child: Icon(Icons.check), 
           ),
           secondaryBackground: Container(
-                        color: Colors.red,
-            child: Column(
-              children: <Widget>[
-                Icon(Icons.cancel),
-                Text('False'),
-              ]
-            )
+            color: Colors.red,
+            child: Icon(Icons.cancel),
           ),
-          key: const ValueKey<int>(0),
           child: Column(
             children: [
-              Container(
-              //height: 300,
-              alignment: Alignment.topRight,
-              child: buildIconButton(context),
-            ),
               NewsCard(news: News.news[0]),
             ],
           ),
           key: ValueKey<int>(0),
-          onDismissed: (DismissDirection direction) {
-            if (direction == DismissDirection.startToEnd){
-              Navigator.of(context).push( MaterialPageRoute (builder: (context) => GoodJobScreen()));
-            } else {
-              Navigator.of(context).push( MaterialPageRoute (builder: (context) => KeepTryingScreen()));
-            } //end if
-          }, // end on Dismissed
         ),
     );
   }
 }
 
 
+=======
+>>>>>>> 41b1fec (Adding features to the Main Page)
 //this is used for the true and false buttons
 class ChoiceButton extends StatelessWidget {
   final Color color;
@@ -344,42 +349,4 @@ class NewsCard extends StatelessWidget {
       ),
     );
   }
-
 }
-
-//this is the play button on the first page
-Widget buildElevatedButton(BuildContext context) => ElevatedButton.icon(
-  //method to go to MainPage
-    onPressed: (){
-      Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const SwipePage(title: 'SwipePage');
-                    },
-                  ),
-                );
-    },
-    icon: const Icon(
-      Icons.favorite,
-      size: 0,
-      color: Colors.blueAccent,
-    ),
-    label: const Text('PLAY'));
-
-//Settings button widget?
-Widget buildIconButton(BuildContext context) => IconButton(
-      onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const LoginPage(title: 'LoginPage');
-                    },
-                  ),
-                );
-      },
-      // ignore: prefer_const_constructors
-      icon: Icon(Icons.settings),
-      alignment: Alignment.bottomRight,
-    );
