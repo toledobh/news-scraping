@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Modules/news_module.dart';
 import 'package:my_app/firebase_options.dart';
+import 'package:my_app/views/loginpage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,12 +87,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListTile(
               title: const Text('StartPage'),
+              textColor:Colors.red.shade300 ,
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
               title: const Text('SwipePage'),
+              textColor: Colors.red.shade300,
               onTap: () {
                 Navigator.push(
                   context,
@@ -105,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListTile(
               title: const Text('LoginPage'),
+              textColor: Colors.red.shade300,
               onTap: () {
                 Navigator.push(
                   context,
@@ -118,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListTile(
               title: const Text('Placeholder'),
+              textColor: Colors.red.shade300,
               onTap: () {
                 Navigator.push(
                   context,
