@@ -8,13 +8,13 @@ import '../Modules/news_module.dart';
 import '../main.dart';
 
 class SwipePage extends StatelessWidget {
-  const SwipePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const SwipePage({super.key, required String title});
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: const Text("Swipe Page"),
       ),
       body: 
         Dismissible(

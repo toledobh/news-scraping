@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'Modules/news_module.dart';
 import 'package:my_app/firebase_options.dart';
 import 'package:my_app/views/loginpage.dart';
+import 'package:my_app/views/swipepage.dart';
+import 'package:my_app/views/newscard.dart';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -141,35 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-//settings page PAGE#2 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key, required this.title}) : super(key: key);
-  final String title;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            // ignore: avoid_unnecessary_containers
-            Container(
-              height: 400,
-              alignment: Alignment.bottomCenter,
-              child: TextButton(
-                onPressed: () {},
-                child: const Text('Go Back'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+
 
 //This page is used for the main part of the game PAGE#3
 class Placeholder extends StatelessWidget {
@@ -211,44 +187,6 @@ class Placeholder extends StatelessWidget {
   }
 }
 
-/*
-Test code for "Swiping" page for the main game
-*/
-
-class SwipePage extends StatelessWidget {
-  const SwipePage({Key? key, required this.title}) : super(key: key);
-  final String title;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: 
-        Dismissible(
-          background: Container(
-            color: Colors.green,
-            child: const Icon(Icons.check), 
-          ),
-          secondaryBackground: Container(
-            color: Colors.red,
-            child: const Icon(Icons.cancel),
-          ),
-          key: const ValueKey<int>(0),
-          child: Column(
-            children: [
-              Container(
-              //height: 300,
-              alignment: Alignment.topRight,
-              child: buildIconButton(context),
-            ),
-              NewsCard(news: News.news[0]),
-            ],
-          ),
-        ),
-    );
-  }
-}
 
 
 //this is used for the true and false buttons

@@ -1,5 +1,6 @@
 //this is used for the true and false buttons
 import 'package:flutter/material.dart';
+import 'package:my_app/main.dart';
 
 class ChoiceButton extends StatelessWidget {
   final Color color;

@@ -1,5 +1,6 @@
 //this class gets information from news_module.dart to build the main page
 import 'package:flutter/material.dart';
+import 'package:my_app/main.dart';
 
 import '../Modules/news_module.dart';
 
