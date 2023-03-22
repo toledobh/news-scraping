@@ -2,11 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Modules/news_module.dart';
 import 'package:my_app/firebase_options.dart';
+import 'how_to_play.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
 }
@@ -38,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue.shade300,
+        title: const Text('My App'),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -65,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   fit: BoxFit.fitHeight,
                 ),
                 buildElevatedButton(context),
+                buildElevatedButton1(context),
               ]),
         ),
       ),
@@ -136,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-//settings page PAGE#2 
+//settings page PAGE#2
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -219,32 +222,30 @@ class SwipePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: 
-        Dismissible(
-          background: Container(
-            color: Colors.green,
-            child: const Icon(Icons.check), 
-          ),
-          secondaryBackground: Container(
-            color: Colors.red,
-            child: const Icon(Icons.cancel),
-          ),
-          key: const ValueKey<int>(0),
-          child: Column(
-            children: [
-              Container(
+      body: Dismissible(
+        background: Container(
+          color: Colors.green,
+          child: const Icon(Icons.check),
+        ),
+        secondaryBackground: Container(
+          color: Colors.red,
+          child: const Icon(Icons.cancel),
+        ),
+        key: const ValueKey<int>(0),
+        child: Column(
+          children: [
+            Container(
               //height: 300,
               alignment: Alignment.topRight,
               child: buildIconButton(context),
             ),
-              NewsCard(news: News.news[0]),
-            ],
-          ),
+            NewsCard(news: News.news[0]),
+          ],
         ),
+      ),
     );
   }
 }
-
 
 //this is used for the true and false buttons
 class ChoiceButton extends StatelessWidget {
@@ -324,21 +325,38 @@ class NewsCard extends StatelessWidget {
       ),
     );
   }
-
 }
+
+//this is the how to play button on the first page
+Widget buildElevatedButton1(BuildContext context) => ElevatedButton.icon(
+    //method to go to MainPage
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HowToPlay(),
+        ),
+      );
+    },
+    icon: const Icon(
+      Icons.favorite,
+      size: 0,
+      color: Colors.blueAccent,
+    ),
+    label: const Text('HOW TO PLAY'));
 
 //this is the play button on the first page
 Widget buildElevatedButton(BuildContext context) => ElevatedButton.icon(
-  //method to go to MainPage
-    onPressed: (){
+    //method to go to MainPage
+    onPressed: () {
       Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const SwipePage(title: 'SwipePage');
-                    },
-                  ),
-                );
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return const SwipePage(title: 'SwipePage');
+          },
+        ),
+      );
     },
     icon: const Icon(
       Icons.favorite,
@@ -350,14 +368,14 @@ Widget buildElevatedButton(BuildContext context) => ElevatedButton.icon(
 //Settings button widget?
 Widget buildIconButton(BuildContext context) => IconButton(
       onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const LoginPage(title: 'LoginPage');
-                    },
-                  ),
-                );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return const LoginPage(title: 'LoginPage');
+            },
+          ),
+        );
       },
       // ignore: prefer_const_constructors
       icon: Icon(Icons.settings),
