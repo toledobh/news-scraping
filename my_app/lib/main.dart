@@ -7,7 +7,7 @@ import 'package:my_app/views/loginpage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
 }
@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListTile(
               title: const Text('StartPage'),
-              textColor:Colors.red.shade300 ,
+              textColor: Colors.red.shade300,
               onTap: () {
                 Navigator.pop(context);
               },
@@ -141,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-//settings page PAGE#2 
+//settings page PAGE#2
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -234,14 +234,14 @@ class SwipePage extends StatelessWidget {
           return Dismissible(
             background: Container(
               decoration: BoxDecoration(
-gradient: LinearGradient(
-begin: Alignment.topRight,
-end: Alignment.bottomLeft,
-colors: [
-Colors.green.shade800,
-Colors.lightGreen,
-],
-)),
+                  gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.green.shade800,
+                  Colors.lightGreen,
+                ],
+              )),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
@@ -268,40 +268,40 @@ Colors.lightGreen,
               ),
             ),
             secondaryBackground: Container(
-decoration: BoxDecoration(
-gradient: LinearGradient(
-begin: Alignment.topRight,
-end: Alignment.bottomLeft,
-colors: [
-Colors.pink.shade800,
-Colors.red.shade600,
-],
-)),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.pink.shade800,
+                  Colors.red.shade600,
+                ],
+              )),
 // color: Colors.red,
-child: Column(
-mainAxisAlignment: MainAxisAlignment.center,
-children: [
-Align(
-alignment: Alignment.center,
-child: Text(
-' \u{1F925}',
-textAlign: TextAlign.center,
-style: TextStyle(
-fontSize: 50,
-),
-),
-),
-SizedBox(height: 16),
-Text(
-'That was fake!',
-style: TextStyle(
-fontSize: 24,
-fontWeight: FontWeight.bold,
-color: Colors.black,
-),
-),
-],
-),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      ' \u{1F925}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 50,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'That was fake!',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
             ),
             key: const ValueKey<int>(0),
             child: Container(
@@ -327,7 +327,6 @@ color: Colors.black,
     );
   }
 }
-
 
 //this is used for the true and false buttons
 class ChoiceButton extends StatelessWidget {
@@ -407,21 +406,20 @@ class NewsCard extends StatelessWidget {
       ),
     );
   }
-
 }
 
 //this is the play button on the first page
 Widget buildElevatedButton(BuildContext context) => ElevatedButton.icon(
-  //method to go to MainPage
-    onPressed: (){
+    //method to go to MainPage
+    onPressed: () {
       Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const SwipePage(title: 'SwipePage');
-                    },
-                  ),
-                );
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return const SwipePage(title: 'SwipePage');
+          },
+        ),
+      );
     },
     icon: const Icon(
       Icons.favorite,
@@ -433,14 +431,14 @@ Widget buildElevatedButton(BuildContext context) => ElevatedButton.icon(
 //Settings button widget?
 Widget buildIconButton(BuildContext context) => IconButton(
       onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const LoginPage(title: 'LoginPage');
-                    },
-                  ),
-                );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return const LoginPage(title: 'LoginPage');
+            },
+          ),
+        );
       },
       // ignore: prefer_const_constructors
       icon: Icon(Icons.settings),
