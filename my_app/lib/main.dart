@@ -6,6 +6,8 @@ import 'Modules/news_module.dart';
 import 'package:my_app/firebase_options.dart';
 import 'package:my_app/views/loginpage.dart';
 import 'how_to_play.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
