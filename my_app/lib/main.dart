@@ -1,4 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/green_screen.dart';
 import 'package:my_app/red_screen.dart';
@@ -6,7 +9,6 @@ import 'Modules/news_module.dart';
 import 'package:my_app/firebase_options.dart';
 import 'package:my_app/views/loginpage.dart';
 import 'how_to_play.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 void main() async {
@@ -16,6 +18,7 @@ void main() async {
   );
   runApp(const MyApp());
 }
+final navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -149,32 +152,150 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 //settings page PAGE#2 new changes
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key, required this.title}) : super(key: key);
+class LoginPage extends StatefulWidget {
   final String title;
+    const LoginPage({Key? key, required this.title}) : super(key: key);
   @override
+  _LoginPageState createState() => _LoginPageState();
+}
+class _LoginPageState extends State<LoginPage>  {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+@override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
+    return MaterialApp (
+      navigatorKey: navigatorKey,
+      debugShowCheckedModeBanner: false,
+       home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.blue.shade300,
+            leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+           Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
+            },
+            ),
+                      ),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.blue.shade300, Colors.red.shade300,])
+          ),
+      child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            // ignore: avoid_unnecessary_containers
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+           const Text(
+              "Welcome to Fakey Wakey!",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(
+              height: 18.0,
+            ),
+            const Text(
+              "Login here",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+           const SizedBox(
+              height: 44.0,
+            ),
+            TextField(
+            controller: emailController,
+            cursorColor: Colors.white,
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                hintText: "User Email",
+                hintStyle: TextStyle(
+                color: Colors.white,
+                ),
+                prefixIcon: Icon(Icons.mail, color: Colors.white),
+              ),
+            ),
+            const SizedBox(
+              height: 26.0,
+            ),
+             TextField(
+              controller: passwordController,
+             cursorColor: Colors.white,
+              textInputAction: TextInputAction.next,
+              obscureText:  true,
+              decoration: const InputDecoration(
+                hintText: "User Password",
+                hintStyle: TextStyle(
+                color: Colors.white,
+                ),
+                prefixIcon: Icon(Icons.lock, color: Colors.white),
+              ),
+            ),
+           const SizedBox(
+              height: 8.0,
+            ),
+           const Text("Don't Remember your Password?",
+            style: TextStyle(color: Colors.white),
+            ),
+           const SizedBox(
+              height: 88.0,
+            ),
             Container(
-              height: 400,
-              alignment: Alignment.bottomCenter,
-              child: TextButton(
-                onPressed: () {},
-                child: const Text('Go Back'),
+              width: double.infinity,
+              child: RawMaterialButton(
+                fillColor: Colors.blueGrey,
+                elevation: 0.0,
+                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0)),
+                onPressed: signIn,
+                child: const Text("Login",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                ),
+                ),
               ),
             ),
           ],
         ),
       ),
+        ),
+       ),
     );
+  }
+    Future signIn() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Center(child: CircularProgressIndicator()),
+    );
+     try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+          );
+     } on FirebaseAuthException catch (e) {
+      print(e);
+     }
+     // Navigator.of(context) not working!
+     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }
 
