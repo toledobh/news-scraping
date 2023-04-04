@@ -843,26 +843,104 @@ class SwipePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Dismissible(
-        background: Container(
-          color: Colors.green,
-          child: const Icon(Icons.check),
-        ),
-        secondaryBackground: Container(
-          color: Colors.red,
-          child: const Icon(Icons.cancel),
-        ),
-        key: const ValueKey<int>(0),
-        child: Column(
-          children: [
-            Container(
-              //height: 300,
-              alignment: Alignment.topRight,
-              child: buildIconButton(context),
+       body: DraggableScrollableSheet(
+        expand: false,
+        minChildSize: 1,
+        maxChildSize: 1,
+        initialChildSize: 1,
+        builder: (context, scrollController) {
+          return Dismissible(
+            background: Container(
+          decoration: BoxDecoration(
+gradient: LinearGradient(
+begin: Alignment.topRight,
+end: Alignment.bottomLeft,
+colors: [
+Colors.green.shade800,
+Colors.lightGreen,
+],
+)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      '\u{1F973}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 50,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Good Job!',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            NewsCard(news: News.news[0]),
-          ],
-        ),
+            secondaryBackground: Container(
+decoration: BoxDecoration(
+gradient: LinearGradient(
+begin: Alignment.topRight,
+end: Alignment.bottomLeft,
+colors: [
+Colors.pink.shade800,
+Colors.red.shade600,
+],
+)),
+// color: Colors.red,
+child: Column(
+mainAxisAlignment: MainAxisAlignment.center,
+children: [
+Align(
+alignment: Alignment.center,
+child: Text(
+' \u{1F925}',
+textAlign: TextAlign.center,
+style: TextStyle(
+fontSize: 50,
+),
+),
+),
+SizedBox(height: 16),
+Text(
+'That was fake!',
+style: TextStyle(
+fontSize: 24,
+fontWeight: FontWeight.bold,
+color: Colors.black,
+),
+),
+],
+),
+            ),
+            key: const ValueKey<int>(0),
+            child: Container(
+              color: Colors.white,
+              child: ListView(
+                controller: scrollController,
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.topRight,
+                        child: buildIconButton(context),
+                      ),
+                      NewsCard(news: News.news[0]),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
