@@ -10,7 +10,6 @@ import 'package:my_app/firebase_options.dart';
 import 'package:my_app/views/loginpage.dart';
 import 'how_to_play.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -18,6 +17,7 @@ void main() async {
   );
   runApp(const MyApp());
 }
+
 final navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListTile(
               title: const Text('StartPage'),
-              textColor:Colors.red.shade300 ,
+              textColor: Colors.red.shade300,
               onTap: () {
                 Navigator.pop(context);
               },
@@ -154,18 +154,19 @@ class _MyHomePageState extends State<MyHomePage> {
 //settings page PAGE#2 new changes
 class LoginPage extends StatefulWidget {
   final String title;
-    const LoginPage({Key? key, required this.title}) : super(key: key);
+  const LoginPage({Key? key, required this.title}) : super(key: key);
   @override
   _LoginPageState createState() => _LoginPageState();
 }
-class _LoginPageState extends State<LoginPage>  {
+
+class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _rememberMe = false;
   bool _isHovering = false;
 
-    @override
+  @override
   void initState() {
     super.initState();
     _loadRememberMe();
@@ -197,7 +198,7 @@ class _LoginPageState extends State<LoginPage>  {
     }
   }
 
-@override
+  @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
@@ -205,260 +206,277 @@ class _LoginPageState extends State<LoginPage>  {
   }
 
   Widget build(BuildContext context) {
-    return MaterialApp (
+    return MaterialApp(
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-       home: Scaffold(
+      home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue.shade300,
-            leading: IconButton(
+          leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-           Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()));
             },
-            ),
-                      ),
+          ),
+        ),
         body: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.blue.shade300, Colors.red.shade300,])
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                Colors.blue.shade300,
+                Colors.red.shade300,
+              ])),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.1),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Welcome to Fakey Wakey!",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  height: 18.0,
+                ),
+                const Text(
+                  "Login here",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  height: 44.0,
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: emailController,
+                        cursorColor: Colors.white,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: const InputDecoration(
+                          hintText: "User Email",
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                          prefixIcon: Icon(Icons.mail, color: Colors.white),
+                        ),
+                        validator: (value) {
+                          if (emailController.text.isEmpty) {
+                            return 'Please enter an email address.';
+                          } else if (!RegExp(
+                                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                              .hasMatch(emailController.text)) {
+                            return 'Please enter a valid email address.';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 26.0,
+                      ),
+                      TextFormField(
+                        controller: passwordController,
+                        cursorColor: Colors.white,
+                        textInputAction: TextInputAction.next,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          hintText: "User Password",
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                          prefixIcon: Icon(Icons.lock, color: Colors.white),
+                        ),
+                        validator: (value) {
+                          if (passwordController.text.isEmpty) {
+                            return 'Please enter a password.';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 8.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ForgotPasswordForm();
+                            },
+                          );
+                        },
+                        child: Text(
+                          "Don't remember your Password?",
+                          style: TextStyle(
+                            color: _isHovering
+                                ? Colors.blueGrey[400]
+                                : Colors.white70,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                      onHover: (PointerEvent event) {
+                        setState(() {
+                          _isHovering = true;
+                        });
+                      },
+                      onExit: (PointerEvent event) {
+                        setState(() {
+                          _isHovering = false;
+                        });
+                      },
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _rememberMe,
+                          onChanged: (value) {
+                            setState(() {
+                              _rememberMe = value!;
+                            });
+                          },
+                        ),
+                        const Text(
+                          'Remember me',
+                          style: TextStyle(
+                            color: Colors.white70,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 8.0,
+                ),
+                const SizedBox(
+                  height: 88.0,
+                ),
+                Container(
+                  width: double.infinity,
+                  child: RawMaterialButton(
+                    fillColor: Colors.blueGrey,
+                    elevation: 0.0,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.1),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0)),
+                    onPressed: () => signIn(context),
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  width: double.infinity,
+                  child: RawMaterialButton(
+                    fillColor: Colors.blueGrey,
+                    elevation: 0.0,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.1),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0)),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreateAccountPage(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      "Create account",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-      child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-           const Text(
-              "Welcome to Fakey Wakey!",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 28.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(
-              height: 18.0,
-            ),
-            const Text(
-              "Login here",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-           const SizedBox(
-              height: 44.0,
-            ),
-            Form(
-  key: _formKey,
-  child: Column(
-    children: <Widget>[
-      TextFormField(
-        controller: emailController,
-        cursorColor: Colors.white,
-        textInputAction: TextInputAction.next,
-        keyboardType: TextInputType.emailAddress,
-        decoration: const InputDecoration(
-          hintText: "User Email",
-          hintStyle: TextStyle(
-            color: Colors.white,
-          ),
-          prefixIcon: Icon(Icons.mail, color: Colors.white),
         ),
-        validator: (value) {
-     if (emailController.text.isEmpty) {
-    return 'Please enter an email address.';
-  } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(emailController.text)) {
-    return 'Please enter a valid email address.';
+      ),
+    );
   }
-  return null;
-},
-      ),
-      const SizedBox(
-        height: 26.0,
-        ),
-             TextFormField(
-        controller: passwordController,
-        cursorColor: Colors.white,
-        textInputAction: TextInputAction.next,
-                obscureText: true,
-        decoration: const InputDecoration(
-          hintText: "User Password",
-          hintStyle: TextStyle(
-            color: Colors.white,
-          ),
-          prefixIcon: Icon(Icons.lock, color: Colors.white),
-        ),
-        validator: (value) {
-          if (passwordController.text.isEmpty) {
-            return 'Please enter a password.';
-          }
-          return null;
-        },
-      ),
-    ],
-  ),
-),
-           const SizedBox(
-              height: 8.0,
-            ),
-            Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return ForgotPasswordForm();
-            },
+
+  Future<void> signIn(BuildContext context) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+      _saveRememberMe();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MyHomePage()),
+      );
+    } on FirebaseAuthException catch (e) {
+      String message;
+      if (e.code == 'user-not-found') {
+        message = 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        message = 'Wrong password provided.';
+      } else if (e.code == 'invalid-email') {
+        message = 'Please enter a valid email address.';
+      } else if (e.code == 'missing-password') {
+        message = 'Please enter a password.';
+      } else {
+        message = 'An error occurred: $e';
+      }
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Sign-in Error'),
+            content: Text(message),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           );
         },
-        child: Text(
-          "Don't remember your Password?",
-          style: TextStyle(
-            color: _isHovering ? Colors.blueGrey[400] : Colors.white70,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      ),
-      onHover: (PointerEvent event) {
-        setState(() {
-          _isHovering = true;
-        });
-      },
-      onExit: (PointerEvent event) {
-        setState(() {
-          _isHovering = false;
-        });
-      },
-    ),
-    Row(
-      children: [
-        Checkbox(
-          value: _rememberMe,
-          onChanged: (value) {
-            setState(() {
-              _rememberMe = value!;
-            });
-          },
-        ),
-        const Text('Remember me',
-         style: TextStyle(
-            color: Colors.white70,),
-        ),
-          ],
-            ),
-            ],
-            ),
-            const SizedBox(
-              height: 8.0,
-            ),
-           const SizedBox(
-              height: 88.0,
-            ),
-            Container(
-              width: double.infinity,
-              child: RawMaterialButton(
-                fillColor: Colors.blueGrey,
-                elevation: 0.0,
-                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0)),
-                onPressed: () => signIn(context),
-                child: const Text("Login",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                ),
-                ),
-              ),
-            ),
-                         const SizedBox(
-              height: 10.0,
-            ),
-            Container(
-              width: double.infinity,
-              child: RawMaterialButton(
-                fillColor: Colors.blueGrey,
-                elevation: 0.0,
-                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0)),
-               onPressed: () {
-               Navigator.push(
-                context,
-                MaterialPageRoute(
-                 builder: (context) => CreateAccountPage(),
-                ),
-                );
-                },
-                child: const Text("Create account",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-        ),
-       ),
-    );
-  }
-  Future<void> signIn(BuildContext context) async {
-  try {
-    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-    );
-    _saveRememberMe();
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => MyHomePage()),
-    );
-  } on FirebaseAuthException catch (e) {
-    String message;
-    if (e.code == 'user-not-found') {
-      message = 'No user found for that email.';
-    } else if (e.code == 'wrong-password') {
-      message = 'Wrong password provided.';
-    } else if (e.code == 'invalid-email') {
-      message = 'Please enter a valid email address.';
-    } else if (e.code == 'missing-password') {
-      message = 'Please enter a password.';
-    } else {
-      message = 'An error occurred: $e';
+      );
     }
-
-    showDialog(
-      context: context,
-builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Sign-in Error'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }
-}
+
 //using a CreateAccountPage
 class CreateAccountPage extends StatefulWidget {
   @override
@@ -485,8 +503,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     });
 
     if (_formKey.currentState!.validate()) {
-     try {
- final newUser = await _auth.createUserWithEmailAndPassword(
+      try {
+        final newUser = await _auth.createUserWithEmailAndPassword(
             email: _email.trim(), password: _password.trim());
         Navigator.pop(context, newUser);
       } on FirebaseAuthException catch (e) {
@@ -515,48 +533,48 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     }
   }
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text('Create account'),
-    ),
-    body: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.blue.shade300, Colors.red.shade300]
-        ),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Create account'),
       ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.blue.shade300, Colors.red.shade300]),
+        ),
         child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.1),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
-               const SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                     enabledBorder: const UnderlineInputBorder(
+                    enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
-                      ),
-                     focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
                     ),
                     labelText: 'Email',
                     hintText: 'Enter your email',
                     errorText: _emailError,
                     labelStyle: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                    color: Colors.white70,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                      color: Colors.white70,
                     ),
                     hintStyle: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                    color: Colors.white70,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                      color: Colors.white70,
                     ),
                   ),
                   onChanged: (value) {
@@ -571,27 +589,27 @@ Widget build(BuildContext context) {
                     return null;
                   },
                 ),
-               const SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
                     border: const UnderlineInputBorder(
-                    borderSide: BorderSide(
-                    color: Colors.black,
-                  ),
-                  ),
+                      borderSide: BorderSide(
+                        color: Colors.black,
+                      ),
+                    ),
                     labelText: 'Password',
                     hintText: 'Enter your password',
                     errorText: _passwordError,
                     labelStyle: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                    color: Colors.white70,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                      color: Colors.white70,
                     ),
                     hintStyle: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                    color: Colors.white70,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                      color: Colors.white70,
                     ),
                   ),
                   onChanged: (value) {
@@ -609,7 +627,7 @@ Widget build(BuildContext context) {
                     return null;
                   },
                 ),
-               const SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
@@ -617,20 +635,20 @@ Widget build(BuildContext context) {
                     hintText: 'Re-enter your password',
                     errorText: _confirmPasswordError,
                     labelStyle: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                    color: Colors.white70,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                      color: Colors.white70,
                     ),
                     hintStyle: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                    color: Colors.white70,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                      color: Colors.white70,
                     ),
                     border: const UnderlineInputBorder(
-                    borderSide: BorderSide(
-                    color: Colors.black,
-                  ),
-                  ),
+                      borderSide: BorderSide(
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -647,7 +665,7 @@ Widget build(BuildContext context) {
                     return null;
                   },
                 ),
-               const SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 if (_firebaseError.isNotEmpty)
                   Text(
                     _firebaseError,
@@ -656,26 +674,28 @@ Widget build(BuildContext context) {
                       fontSize: 16.0,
                     ),
                   ),
-               const SizedBox(height: 30.0),
+                const SizedBox(height: 30.0),
                 Container(
                   width: double.infinity,
-                 child: RawMaterialButton(
-                fillColor: Colors.blueGrey,
-                elevation: 0.0,
-                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0)),
+                  child: RawMaterialButton(
+                    fillColor: Colors.blueGrey,
+                    elevation: 0.0,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.1),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0)),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _createAccount();
                       }
                     },
-                    child: const Text('Create account',
-                    style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 18.0,
-                ),
-                ),
+                    child: const Text(
+                      'Create account',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 18.0,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -684,8 +704,9 @@ Widget build(BuildContext context) {
         ),
       ),
     );
+  }
 }
-}
+
 class ForgotPasswordForm extends StatefulWidget {
   @override
   _ForgotPasswordFormState createState() => _ForgotPasswordFormState();
@@ -703,71 +724,70 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
     return null;
   }
 
- void _submitForm() async {
-  if (_formKey.currentState!.validate()) {
-    try {
-      if (_email.isEmpty) {
+  void _submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        if (_email.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Please enter your email.')));
+          return;
+        }
+        final methods = await _auth.fetchSignInMethodsForEmail(_email);
+        if (methods.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('There is no account related to that email.')));
+          return;
+        }
+        await _auth.sendPasswordResetEmail(email: _email);
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Please enter your email.')));
-        return;
+            SnackBar(content: Text('Password reset email sent.')));
+        Navigator.of(context).pop();
+      } on FirebaseAuthException catch (e) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.message!)));
       }
-      final methods = await _auth.fetchSignInMethodsForEmail(_email);
-      if (methods.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('There is no account related to that email.')));
-        return;
-      }
-      await _auth.sendPasswordResetEmail(email: _email);
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Password reset email sent.')));
-      Navigator.of(context).pop();
-
-
-     } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message!)));
     }
   }
-}
- @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    body: AlertDialog(
-      title: const Text('Reset Password'),
-      content: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                hintText: 'Enter your email',
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: AlertDialog(
+        title: const Text('Reset Password'),
+        content: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  hintText: 'Enter your email',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _email = value;
+                  });
+                },
+                validator: _emailValidator,
               ),
-              onChanged: (value) {
-                setState(() {
-                  _email = value;
-                });
-              },
-              validator: _emailValidator,
-            ),
-          ],
+            ],
+          ),
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('CANCEL'),
+          ),
+          ElevatedButton(
+            onPressed: _submitForm,
+            child: Text('SUBMIT'),
+          ),
+        ],
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text('CANCEL'),
-        ),
-        ElevatedButton(
-          onPressed: _submitForm,
-          child: Text('SUBMIT'),
-        ),
-      ],
-    ),
-  );
-}
+    );
+  }
 }
 
 //This page is used for the main part of the game PAGE#3
