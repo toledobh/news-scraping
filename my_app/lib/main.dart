@@ -950,7 +950,6 @@ class NewsCard extends StatelessWidget {
 
 //this is the how to play button on the first page
 Widget buildElevatedButton1(BuildContext context) => ElevatedButton.icon(
-    //method to go to MainPage
     onPressed: () {
       Navigator.push(
         context,
