@@ -161,6 +161,41 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage>  {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  bool _rememberMe = false;
+  bool _isHovering = false;
+
+    @override
+  void initState() {
+    super.initState();
+    _loadRememberMe();
+  }
+
+  void _loadRememberMe() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool rememberMe = prefs.getBool('rememberMe') ?? false;
+    setState(() {
+      _rememberMe = rememberMe;
+    });
+    if (_rememberMe) {
+      String email = prefs.getString('email') ?? '';
+      String password = prefs.getString('password') ?? '';
+      emailController.text = email;
+      passwordController.text = password;
+    }
+  }
+
+  void _saveRememberMe() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('rememberMe', _rememberMe);
+    if (_rememberMe) {
+      prefs.setString('email', emailController.text);
+      prefs.setString('password', passwordController.text);
+    } else {
+      prefs.remove('email');
+      prefs.remove('password');
+    }
+  }
 
 @override
   void dispose() {
@@ -218,40 +253,112 @@ class _LoginPageState extends State<LoginPage>  {
            const SizedBox(
               height: 44.0,
             ),
-            TextField(
-            controller: emailController,
-            cursorColor: Colors.white,
-              textInputAction: TextInputAction.next,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                hintText: "User Email",
-                hintStyle: TextStyle(
-                color: Colors.white,
-                ),
-                prefixIcon: Icon(Icons.mail, color: Colors.white),
-              ),
-            ),
-            const SizedBox(
-              height: 26.0,
-            ),
-             TextField(
-              controller: passwordController,
-             cursorColor: Colors.white,
-              textInputAction: TextInputAction.next,
-              obscureText:  true,
-              decoration: const InputDecoration(
-                hintText: "User Password",
-                hintStyle: TextStyle(
-                color: Colors.white,
-                ),
-                prefixIcon: Icon(Icons.lock, color: Colors.white),
-              ),
-            ),
+            Form(
+  key: _formKey,
+  child: Column(
+    children: <Widget>[
+      TextFormField(
+        controller: emailController,
+        cursorColor: Colors.white,
+        textInputAction: TextInputAction.next,
+        keyboardType: TextInputType.emailAddress,
+        decoration: const InputDecoration(
+          hintText: "User Email",
+          hintStyle: TextStyle(
+            color: Colors.white,
+          ),
+          prefixIcon: Icon(Icons.mail, color: Colors.white),
+        ),
+        validator: (value) {
+     if (emailController.text.isEmpty) {
+    return 'Please enter an email address.';
+  } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(emailController.text)) {
+    return 'Please enter a valid email address.';
+  }
+  return null;
+},
+      ),
+      const SizedBox(
+        height: 26.0,
+        ),
+             TextFormField(
+        controller: passwordController,
+        cursorColor: Colors.white,
+        textInputAction: TextInputAction.next,
+                obscureText: true,
+        decoration: const InputDecoration(
+          hintText: "User Password",
+          hintStyle: TextStyle(
+            color: Colors.white,
+          ),
+          prefixIcon: Icon(Icons.lock, color: Colors.white),
+        ),
+        validator: (value) {
+          if (passwordController.text.isEmpty) {
+            return 'Please enter a password.';
+          }
+          return null;
+        },
+      ),
+    ],
+  ),
+),
            const SizedBox(
               height: 8.0,
             ),
-           const Text("Don't Remember your Password?",
-            style: TextStyle(color: Colors.white),
+            Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return ForgotPasswordForm();
+            },
+          );
+        },
+        child: Text(
+          "Don't remember your Password?",
+          style: TextStyle(
+            color: _isHovering ? Colors.blueGrey[400] : Colors.white70,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+      ),
+      onHover: (PointerEvent event) {
+        setState(() {
+          _isHovering = true;
+        });
+      },
+      onExit: (PointerEvent event) {
+        setState(() {
+          _isHovering = false;
+        });
+      },
+    ),
+    Row(
+      children: [
+        Checkbox(
+          value: _rememberMe,
+          onChanged: (value) {
+            setState(() {
+              _rememberMe = value!;
+            });
+          },
+        ),
+        const Text('Remember me',
+         style: TextStyle(
+            color: Colors.white70,),
+        ),
+          ],
+            ),
+            ],
+            ),
+            const SizedBox(
+              height: 8.0,
             ),
            const SizedBox(
               height: 88.0,
@@ -264,8 +371,35 @@ class _LoginPageState extends State<LoginPage>  {
                 padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0)),
-                onPressed: signIn,
+                onPressed: () => signIn(context),
                 child: const Text("Login",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                ),
+                ),
+              ),
+            ),
+                         const SizedBox(
+              height: 10.0,
+            ),
+            Container(
+              width: double.infinity,
+              child: RawMaterialButton(
+                fillColor: Colors.blueGrey,
+                elevation: 0.0,
+                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0)),
+               onPressed: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(
+                 builder: (context) => CreateAccountPage(),
+                ),
+                );
+                },
+                child: const Text("Create account",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18.0,
@@ -280,23 +414,360 @@ class _LoginPageState extends State<LoginPage>  {
        ),
     );
   }
-    Future signIn() async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Center(child: CircularProgressIndicator()),
-    );
-     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+  Future<void> signIn(BuildContext context) async {
+  try {
+    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailController.text.trim(),
       password: passwordController.text.trim(),
-          );
-     } on FirebaseAuthException catch (e) {
-      print(e);
-     }
-     // Navigator.of(context) not working!
-     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    );
+    _saveRememberMe();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MyHomePage()),
+    );
+  } on FirebaseAuthException catch (e) {
+    String message;
+    if (e.code == 'user-not-found') {
+      message = 'No user found for that email.';
+    } else if (e.code == 'wrong-password') {
+      message = 'Wrong password provided.';
+    } else if (e.code == 'invalid-email') {
+      message = 'Please enter a valid email address.';
+    } else if (e.code == 'missing-password') {
+      message = 'Please enter a password.';
+    } else {
+      message = 'An error occurred: $e';
+    }
+
+    showDialog(
+      context: context,
+builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Sign-in Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
+}
+}
+//using a CreateAccountPage
+class CreateAccountPage extends StatefulWidget {
+  @override
+  _CreateAccountPageState createState() => _CreateAccountPageState();
+}
+
+class _CreateAccountPageState extends State<CreateAccountPage> {
+  final _formKey = GlobalKey<FormState>();
+  String _email = '';
+  String _password = '';
+  String _confirmPassword = '';
+  String _emailError = '';
+  String _passwordError = '';
+  String _confirmPasswordError = '';
+  String _firebaseError = '';
+  final _auth = FirebaseAuth.instance;
+
+  void _createAccount() async {
+    setState(() {
+      _emailError = '';
+      _passwordError = '';
+      _confirmPasswordError = '';
+      _firebaseError = '';
+    });
+
+    if (_formKey.currentState!.validate()) {
+     try {
+ final newUser = await _auth.createUserWithEmailAndPassword(
+            email: _email.trim(), password: _password.trim());
+        Navigator.pop(context, newUser);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          setState(() {
+            _passwordError = 'The password provided is too weak.';
+          });
+        } else if (e.code == 'email-already-in-use') {
+          setState(() {
+            _emailError = 'The account already exists for that email.';
+          });
+        } else if (e.code == 'invalid-email') {
+          setState(() {
+            _emailError = 'The email address is invalid.';
+          });
+        } else {
+          setState(() {
+            _firebaseError = e.message!;
+          });
+        }
+      } catch (e) {
+        setState(() {
+          _firebaseError = e.toString();
+        });
+      }
+    }
+  }
+
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Create account'),
+    ),
+    body: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.blue.shade300, Colors.red.shade300]
+        ),
+      ),
+        child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+               const SizedBox(height: 16.0),
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                     enabledBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                      ),
+                     focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    ),
+                    labelText: 'Email',
+                    hintText: 'Enter your email',
+                    errorText: _emailError,
+                    labelStyle: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                    color: Colors.white70,
+                    ),
+                    hintStyle: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                    color: Colors.white70,
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _email = value;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email.';
+                    }
+                    return null;
+                  },
+                ),
+               const SizedBox(height: 16.0),
+                TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                    color: Colors.black,
+                  ),
+                  ),
+                    labelText: 'Password',
+                    hintText: 'Enter your password',
+                    errorText: _passwordError,
+                    labelStyle: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                    color: Colors.white70,
+                    ),
+                    hintStyle: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                    color: Colors.white70,
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _password = value;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password.';
+                    }
+                    if (value.length < 6) {
+                      return 'Your password must be at least 6 characters long.';
+                    }
+                    return null;
+                  },
+                ),
+               const SizedBox(height: 16.0),
+                TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                    hintText: 'Re-enter your password',
+                    errorText: _confirmPasswordError,
+                    labelStyle: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                    color: Colors.white70,
+                    ),
+                    hintStyle: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                    color: Colors.white70,
+                    ),
+                    border: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                    color: Colors.black,
+                  ),
+                  ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _confirmPassword = value;
+                    });
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please confirm your password.';
+                    }
+                    if (_password != _confirmPassword) {
+                      return 'Passwords do not match.';
+                    }
+                    return null;
+                  },
+                ),
+               const SizedBox(height: 16.0),
+                if (_firebaseError.isNotEmpty)
+                  Text(
+                    _firebaseError,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 16.0,
+                    ),
+                  ),
+               const SizedBox(height: 30.0),
+                Container(
+                  width: double.infinity,
+                 child: RawMaterialButton(
+                fillColor: Colors.blueGrey,
+                elevation: 0.0,
+                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0)),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _createAccount();
+                      }
+                    },
+                    child: const Text('Create account',
+                    style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 18.0,
+                ),
+                ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+}
+}
+class ForgotPasswordForm extends StatefulWidget {
+  @override
+  _ForgotPasswordFormState createState() => _ForgotPasswordFormState();
+}
+
+class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _auth = FirebaseAuth.instance;
+  late String _email;
+
+  String? _emailValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your email.';
+    }
+    return null;
+  }
+
+ void _submitForm() async {
+  if (_formKey.currentState!.validate()) {
+    try {
+      if (_email.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Please enter your email.')));
+        return;
+      }
+      final methods = await _auth.fetchSignInMethodsForEmail(_email);
+      if (methods.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('There is no account related to that email.')));
+        return;
+      }
+      await _auth.sendPasswordResetEmail(email: _email);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Password reset email sent.')));
+      Navigator.of(context).pop();
+
+
+     } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message!)));
+    }
+  }
+}
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: AlertDialog(
+      title: const Text('Reset Password'),
+      content: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                labelText: 'Email',
+                hintText: 'Enter your email',
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _email = value;
+                });
+              },
+              validator: _emailValidator,
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text('CANCEL'),
+        ),
+        ElevatedButton(
+          onPressed: _submitForm,
+          child: Text('SUBMIT'),
+        ),
+      ],
+    ),
+  );
+}
 }
 
 //This page is used for the main part of the game PAGE#3
